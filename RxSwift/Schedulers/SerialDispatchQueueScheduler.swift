@@ -6,6 +6,8 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+#if !os(WASI)
+
 import Dispatch
 import Foundation
 
@@ -77,6 +79,8 @@ public class SerialDispatchQueueScheduler : SchedulerType {
         self.init(serialQueue: serialQueue, leeway: leeway)
     }
 
+    // TODO: SM: Is the API signature here too similar to the old one?
+    #if canImport(DispatchAsync) // TODO: SM: Key this off of some other flag, or implement DispatchQoS support
     /**
      Constructs new `SerialDispatchQueueScheduler` that wraps one of the global concurrent dispatch queues.
      
@@ -85,9 +89,22 @@ public class SerialDispatchQueueScheduler : SchedulerType {
      - parameter leeway: The amount of time, in nanoseconds, that the system will defer the timer.
      */
     @available(macOS 10.10, *)
+    public convenience init(internalSerialQueueName: String = "rx.global_dispatch_queue.serial", leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
+        self.init(queue: DispatchQueue.global(), internalSerialQueueName: internalSerialQueueName, leeway: leeway)
+    }
+    #else
+    /**
+    Constructs new `SerialDispatchQueueScheduler` that wraps one of the global concurrent dispatch queues.
+    
+    - parameter qos: Identifier for global dispatch queue with specified quality of service class.
+    - parameter internalSerialQueueName: Custom name for internal serial dispatch queue proxy.
+    - parameter leeway: The amount of time, in nanoseconds, that the system will defer the timer.
+    */
+    @available(macOS 10.10, *)
     public convenience init(qos: DispatchQoS, internalSerialQueueName: String = "rx.global_dispatch_queue.serial", leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
         self.init(queue: DispatchQueue.global(qos: qos.qosClass), internalSerialQueueName: internalSerialQueueName, leeway: leeway)
     }
+    #endif
     
     /**
     Schedules an action to be executed immediately.
@@ -129,3 +146,5 @@ public class SerialDispatchQueueScheduler : SchedulerType {
         self.configuration.schedulePeriodic(state, startAfter: startAfter, period: period, action: action)
     }
 }
+
+#endif // !os(WASI)

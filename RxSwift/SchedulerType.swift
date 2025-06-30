@@ -6,7 +6,9 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Dispatch
+#if canImport(DispatchAsync)
+    import DispatchAsync // TODO: SM: Do I really need this? If so, remove after integrating DispatchAsync into toolchain and Foundation
+#endif
 import Foundation
 
 // Type that represents time interval in the context of RxSwift.

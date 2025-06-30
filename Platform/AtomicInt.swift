@@ -12,13 +12,6 @@ import Atomics
 
 typealias AtomicInt = ManagedAtomic<Int32>
 
-final class AtomicInt: NSLock, @unchecked Sendable {
-    fileprivate var value: Int32
-    public init(_ value: Int32 = 0) {
-        self.value = value
-    }
-}
-
 @discardableResult
 @inline(__always)
 func add(_ this: AtomicInt, _ value: Int32) -> Int32 {

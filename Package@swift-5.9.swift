@@ -75,6 +75,9 @@ let package = Package(
         url: "https://github.com/apple/swift-atomics.git",
         from: "1.2.0"
     ),
+
+    // TODO: Remove DispatchAsync dependency once it is integrated into SwiftWasm toolchain
+    .package(url: "https://github.com/PassiveLogic/dispatch-async.git", branch: "feat/swift-wasm-support") // TODO: SM: Copy-paste-adapt dispatch-async into repo once dispatch-async is merged, then remove this dependency
   ],
   targets: ([
     [
@@ -89,6 +92,13 @@ let package = Package(
             .product(
                 name: "Atomics",
                 package: "swift-atomics",
+                condition: .when(platforms: [.wasi])
+            ),
+
+            // TODO: SM: Remove once this is integrated into wasm toolchain.
+            .product(
+                name: "DispatchAsync",
+                package: "dispatch-async",
                 condition: .when(platforms: [.wasi])
             ),
         ]
