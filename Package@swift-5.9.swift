@@ -76,8 +76,8 @@ let package = Package(
         from: "1.2.0"
     ),
 
-    // TODO: Remove DispatchAsync dependency once it is integrated into SwiftWasm toolchain
-    .package(url: "https://github.com/PassiveLogic/swift-dispatch-async.git", branch: "feat/swift-wasm-support") // TODO: SM: Copy-paste-adapt swift-dispatch-async into repo once swift-dispatch-async is merged, then remove this dependency
+    // TODO: SM: Remove DispatchAsync dependency once it is integrated into SwiftWasm toolchain
+    .package(url: "https://github.com/PassiveLogic/swift-dispatch-async.git", from: "0.0.1")
   ],
   targets: ([
     [

@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/PassiveLogic/swift-dispatch-async.git",
       "state" : {
-        "branch" : "feat/swift-wasm-support",
-        "revision" : "82670937b29b1960a5d588a63ee634c8753869ed"
+        "revision" : "d4251dd87be9ba2ad5d27328980e7165a392fd2f",
+        "version" : "0.0.1"
       }
     }
   ],
